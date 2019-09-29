@@ -1,0 +1,32 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<odoo>
+    <record id="training_customer_rent_view" model="ir.ui.view">
+        <field name="name">借阅</field>
+        <field name="model">training.customer.rent</field>
+        <field name="arch" type="xml">
+            <form>
+                <p class="oe_grey">
+                    客户借阅书籍：
+                </p>
+                <group>
+                    <field name="customer_rent_ids" widget="many2many_tags"/>
+                </group>
+                <footer>
+                    <button type="object" name="confirm_rent" string="确认" class="oe_highlight"/>
+                    <button special="cancel" string="取消"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_training_customer_rent" model="ir.actions.act_window">
+        <field name="name">借阅</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="src_model">training.customer</field>
+        <field name="res_model">training.customer.rent</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="key2">client_action_multi</field>
+    </record>
+</odoo>

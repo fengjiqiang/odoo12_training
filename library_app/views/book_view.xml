@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<odoo>
+<!--    form视图-->
+    <record id="view_form_book" model="ir.ui.view">
+        <field name="name">Book Form</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <form string="Book">
+                <header>
+                    <button name="button_check_isbn" type="object" string="Check ISBN"/>
+                </header>
+                <sheet>
+                    <group name="group_top">
+                        <group name="group_left">
+                            <field name="name"/>
+                            <field name="author_ids_ids" widget="many2many_tags" domain="[('op_type', '=', 'author')]"/>
+                            <field name="publisher_id_id" domain="[('op_type', '=', 'publish')]"/>
+                            <field name="date_published"/>
+                        </group>
+                        <group name="group_right">
+                            <field name="isbn"/>
+                            <field name="active"/>
+                            <field name="image" widget="image"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<!--    tree视图-->
+    <record id="view_tree_book" model="ir.ui.view">
+        <field name="name">Book List</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <tree string="" default_order="date_published desc">
+                <field name="name"/>
+                <field name="author_ids_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <field name="publisher_id_id"/>
+                <field name="date_published"/>
+            </tree>
+        </field>
+    </record>
+<!--    search视图-->
+    <record id="view_search_book" model="ir.ui.view">
+        <field name="name">Book Filters</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="publisher_id_id"/>
+                <filter name="filter_active" string="Active" domain="[('active','=',True)]"/>
+                <filter name="filter_inactive" string="Inactive" domain="[('active','=',False)]"/>
+                <group expand="0" string="Group By">
+<!--                    Many2many字段无法分组-->
+<!--                    <filter string="Author" name="group_by_author" domain="[]" context="{'group_by':'author_ids_ids'}"/>-->
+                    <filter string="Publish" name="group_by_publish" domain="[]" context="{'group_by':'publisher_id_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_library_book" model="ir.actions.act_window">
+        <field name="name">Library Books</field>
+        <field name="res_model">library.book</field>
+        <field name="view_type">form</field>
+        <field name="context">{'search_default_group_by_publish': True}</field>
+        <field name="search_view_id" ref="view_search_book"/>
+        <field name="limit">5</field>
+    </record>
+</odoo>

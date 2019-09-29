@@ -1,0 +1,31 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<odoo>
+
+    <!--一级菜单-->
+    <menuitem name="图书馆"
+              id="training_library.menu_root"
+              web_icon="training_library,static/description/icon.png"
+              sequence="0"/>
+    <!--二级菜单-->
+    <menuitem name="书籍"
+              id="training_library.menu_book"
+              parent="training_library.menu_root"
+              action="action_book_add"
+              sequence="10"/>
+    <menuitem name="副本"
+              id="training_library.menu_book_copy"
+              parent="training_library.menu_root"
+              action="action_book_copy_add"
+              sequence="20"/>
+    <menuitem name="借阅"
+              id="training_library.menu_book_rent_return"
+              parent="training_library.menu_root"
+              action="action_book_rent_return"
+              sequence="30"/>
+    <menuitem name="客户"
+              id="training_library.menu_customer"
+              parent="training_library.menu_root"
+              action="action_customer_add"
+              sequence="40"/>
+
+</odoo>

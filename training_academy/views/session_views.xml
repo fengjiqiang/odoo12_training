@@ -1,0 +1,94 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_academy_session_tree" model="ir.ui.view">
+        <field name="name">academy.session.tree</field>
+        <field name="model">academy.session</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name"/>
+                <field name="subject_id"/>
+                <field name="lesson_id"/>
+                <field name="partner_id"/>
+                <field name="teacher_id"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+                <field name="continue_time"/>
+                <field name="seat_num"/>
+                <field name="student_num"/>
+                <field name="taken_seats" widget="progressbar"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_academy_session_form" model="ir.ui.view">
+        <field name="name">academy.session.form</field>
+        <field name="model">academy.session</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+                    <button name="action_invoice" type="object" string="添加发票" states="confirm"
+                            attrs="{'invisible': [('is_paid', '=', True)]}" class="btn-primary"/>
+                    <button name="action_confirm" type="object" string="确认" states="draft" class="btn-primary"/>
+                    <button name="action_draft" type="object" string="设为草稿" states="confirm" class="btn-primary"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" placeholder="输入具体上课时间"/>
+                            <field name="subject_id"/>
+                            <field name="lesson_id" readonly="1"/>
+                            <field name="partner_id" domain="[('op_type', '=', '3')]" readonly="1"/>
+                            <field name="teacher_id" domain="['|', ('op_type', '=', '1'), ('instructor', '=', True)]"/>
+                            <field name="is_paid"/>
+                        </group>
+                        <group>
+                            <field name="start_time"/>
+                            <field name="end_time"/>
+                            <field name="continue_time"/>
+                            <field name="seat_num"/>
+                            <field name="student_num"/>
+                            <field name="taken_seats" widget="progressbar"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="学生信息">
+                            <button name="%(action_academy_student_regiester)d" type="action" string="学生注册"
+                                    states="confirm"/>
+                            <field name="student_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="phone"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--    搜索视图-->
+    <record id="view_academy_session_search" model="ir.ui.view">
+        <field name="name">academy.session.search</field>
+        <field name="model">academy.session</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="lesson_id"/>
+                <filter string="理科" name="sci" domain="[('subject_id', '=', '理科')]"/>
+                <filter string="文科" name="art" domain="[('subject_id', '=', '文科')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_academy_session" model="ir.actions.act_window">
+        <field name="name">课程</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">academy.session</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="view_academy_session_tree"/>
+        <field name="view_mode">kanban,form,tree</field>
+    </record>
+
+</odoo>

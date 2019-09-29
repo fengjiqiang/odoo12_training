@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<odoo>
+    <!-- Library App Menu -->
+    <menuitem id="menu_library" name="Library"/>
+    <!-- Action to open the Book list -->
+<!--    <act_window id="action_library_book"-->
+<!--                name="Library Books"-->
+<!--                res_model="library.book"-->
+<!--                view_mode="tree,form"-->
+<!--                limit="5"-->
+<!--    />-->
+    <record id="action_library_book" model="ir.actions.act_window">
+        <field name="name">Library Books</field>
+        <field name="res_model">library.book</field>
+        <field name="view_type">form</field>
+        <field name="context">{'search_default_group_by_publish': True}</field>
+        <field name="search_view_id" ref="view_search_book"/>
+        <field name="limit">5</field>
+    </record>
+<!--    <act_window id="action_library_partner"-->
+<!--                name="Library Partner"-->
+<!--                res_model="library.partner"-->
+<!--                view_mode="tree,form"-->
+<!--                search_view_id="view_search_partner"-->
+<!--                context="{'search_default_filter_partner': True}"-->
+<!--                limit="5"-->
+<!--    />-->
+    <!-- Menu item to open the Book list -->
+    <menuitem id="menu_library_book"
+              name="Book"
+              parent="menu_library"
+              action="action_library_book"
+    />
+    <menuitem id="menu_library_partner"
+              name="Partner"
+              parent="menu_library"
+              action="action_library_partner"/>
+
+    <!--act_window id="action_library_book_report"
+        name="Book Report"
+        res_model="library.book.report"
+        view_mode="tree,form"
+    />
+    <menuitem id="menu_library_book_report"
+        name="Book Report"
+        parent="menu_library"
+        action="action_library_book_report"
+    /-->
+</odoo>

@@ -1,0 +1,31 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<odoo>
+
+    <!--一级菜单-->
+    <menuitem name="课程管理"
+              id="training_academy.menu_root"
+              web_icon="training_academy,static/description/icon.png"
+              sequence="0"/>
+    <!--二级菜单-->
+    <menuitem name="科目"
+              id="training_academy.menu_subject"
+              parent="training_academy.menu_root"
+              action="action_academy_subject"
+              sequence="10"/>
+    <menuitem name="学科"
+              id="training_academy.menu_lesson"
+              parent="training_academy.menu_root"
+              action="action_academy_lesson"
+              sequence="20"/>
+    <menuitem name="课程"
+              id="training_academy.menu_session"
+              parent="training_academy.menu_root"
+              action="action_academy_session"
+              sequence="30"/>
+    <menuitem name="人员"
+              id="training_academy.menu_partner"
+              parent="training_academy.menu_root"
+              action="action_academy_partner"
+              sequence="40"/>
+
+</odoo>

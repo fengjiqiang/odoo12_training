@@ -1,0 +1,98 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_volunteer_task_tree" model="ir.ui.view">
+        <field name="name">volunteer.task.tree</field>
+        <field name="model">volunteer.task</field>
+        <field name="arch" type="xml">
+            <tree string="" default_order="day_number, start_time" decoration-muted="state=='done'">
+                <field name="name"/>
+                <field name="type"/>
+                <field name="area"/>
+                <field name="plan_id"/>
+                <field name="state"/>
+                <field name="active" widget="boolean_toggle"/>
+                <field name="day_number"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+                <field name="continue_time"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_volunteer_task_form" model="ir.ui.view">
+        <field name="name">volunteer.task.form</field>
+        <field name="model">volunteer.task</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="task_state_done" type="object" string="完工" states='undone' class="btn btn-primary"/>
+                    <button name="task_state_undone" type="object" string="反完工" states='done' class="btn btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="plan_id" readonly="1"/>
+                            <field name="name"/>
+                            <field name="type"/>
+                            <field name="area"/>
+                            <field name="state" readonly="1"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="day_number" placeholder="输入数字1~7"/>
+                            <field name="start_time"/>
+                            <field name="end_time"/>
+                            <field name="continue_time"/>
+                            <field name="is_floating"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="志愿者信息" attrs="{'invisible': [('is_floating', '=', True)]}">
+                            <field name="person_ids" context="{'search_default_term':1}">
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--    搜索视图-->
+    <record id="view_volunteer_task_search" model="ir.ui.view">
+        <field name="model">volunteer.task</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name"/>
+                <filter name="recurring" string="周期性任务" domain="[('type', '=', 'recurring')]"/>
+                <filter name="one-shot" string="临时性任务" domain="[('type', '=', 'one-shot')]"/>
+                <separator/>
+                <filter string="All" name="all" domain="['|', ('active', '=', False), ('active', '=', True)]"/>
+                <filter string="未归档" name="active" domain="[('active', '=', True)]"/>
+                <filter string="已归档" name="inactive" domain="[('active', '=', False)]"/>
+                <field name="area"/>
+                <filter string="区域" name="area" domain="[]" context="{'group_by':'area'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_volunteer_task" model="ir.actions.act_window">
+        <field name="name">添加任务</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">volunteer.task</field>
+        <field name="view_type">form</field>
+        <field name="context">{'active_test': False, 'search_default_active':1}</field>
+        <field name="view_id" ref="view_volunteer_task_tree"/>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <record id="action_volunteer_generate_task" model="ir.actions.act_window">
+        <field name="name">添加任务</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">volunteer.task</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="view_volunteer_task_tree"/>
+        <field name="view_mode">form</field>
+    </record>
+
+</odoo>

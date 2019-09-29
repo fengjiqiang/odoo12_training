@@ -1,0 +1,62 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<odoo>
+    <record id="view_training_customer_tree" model="ir.ui.view">
+        <field name="name">training.customer.tree</field>
+        <field name="model">training.customer</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name"/>
+                <field name="address"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="money"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_training_customer_form" model="ir.ui.view">
+        <field name="name">training.customer.form</field>
+        <field name="model">training.customer</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="address"/>
+                        </group>
+                        <group>
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="money" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="借阅信息">
+                            <button name="%(action_training_customer_rent)d" type="action" string="借阅"/>
+                            <field name="customer_rent_ids">
+                                <tree>
+                                    <field name="copy_id"/>
+                                    <field name="book_reference"/>
+                                    <field name="rental_date"/>
+                                    <field name="return_date"/>
+                                    <field name="continue_days"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_customer_add" model="ir.actions.act_window">
+        <field name="name">添加客户</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">training.customer</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="view_training_customer_tree"/>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+</odoo>

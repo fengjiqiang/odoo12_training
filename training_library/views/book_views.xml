@@ -1,0 +1,54 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<odoo>
+    <record id="view_training_book_tree" model="ir.ui.view">
+        <field name="name">training.book.tree</field>
+        <field name="model">training.book</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name"/>
+                <field name="author"/>
+                <field name="editor"/> 
+                <field name="year"/>
+                <field name="ISBN"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_training_book_form" model="ir.ui.view">
+        <field name="name">training.book.form</field>
+        <field name="model">training.book</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="author"/>
+                            <field name="editor"/>
+                        </group>
+                        <group>
+                            <field name="year"/>
+                            <field name="ISBN"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="copy_info" string="副本信息">
+                            <field name="book_copy_ids" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_book_add" model="ir.actions.act_window">
+        <field name="name">添加书籍</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">training.book</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="view_training_book_tree"/>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+</odoo>

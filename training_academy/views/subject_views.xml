@@ -1,0 +1,47 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_academy_subject_tree" model="ir.ui.view">
+        <field name="name">academy.subject.tree</field>
+        <field name="model">academy.subject</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="desc"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_academy_subject_form" model="ir.ui.view">
+        <field name="name">academy.subject.form</field>
+        <field name="model">academy.subject</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="partner_id" domain="[('op_type', '=', '3')]"/>
+                        <field name="desc"/>
+                    </group>
+                    <notebook>
+                        <page string="信息">
+                            <field name="lesson_ids">
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_academy_subject" model="ir.actions.act_window">
+        <field name="name">科目</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">academy.subject</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="view_academy_subject_tree"/>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+</odoo>

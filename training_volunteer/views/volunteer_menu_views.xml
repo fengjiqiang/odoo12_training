@@ -1,0 +1,26 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<odoo>
+
+    <!--一级菜单-->
+    <menuitem name="志愿者任务"
+              id="training_volunteer.menu_root"
+              web_icon="training_volunteer,static/description/icon.png"
+              sequence="0"/>
+    <!--二级菜单-->
+    <menuitem name="模板"
+              id="training_volunteer.menu_plan"
+              parent="training_volunteer.menu_root"
+              action="action_volunteer_plan"
+              sequence="10"/>
+    <menuitem name="任务"
+              id="training_volunteer.menu_task"
+              parent="training_volunteer.menu_root"
+              action="action_volunteer_task"
+              sequence="20"/>
+    <menuitem name="志愿者"
+              id="training_volunteer.menu_person"
+              parent="training_volunteer.menu_root"
+              action="action_volunteer_person"
+              sequence="30"/>
+
+</odoo>

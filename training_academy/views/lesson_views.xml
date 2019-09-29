@@ -1,0 +1,78 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_academy_lesson_tree" model="ir.ui.view">
+        <field name="name">academy.lesson.tree</field>
+        <field name="model">academy.lesson</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name"/>
+                <field name="subject_id"/>
+                <field name="partner_id"/>
+                <field name="level"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_academy_lesson_form" model="ir.ui.view">
+        <field name="name">academy.lesson.form</field>
+        <field name="model">academy.lesson</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <!--                <header attrs="{'invisible': [('state','=', 'draft')]}">-->
+                <header>
+                    <button string="添加课程" type="action" name="%(action_academy_session)d" class="btn btn-primary"
+                            context="{'default_lesson_id': id, 'default_subject_id': subject_id}" states="confirm"/>
+                    <button name="action_confirm" type="object" string="确认" states="draft" class="btn-primary"/>
+                    <button name="action_draft" type="object" string="设为草稿" states="confirm" class="btn-primary"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="level"/>
+                        </group>
+                        <group>
+                            <field name="subject_id"/>
+                            <field name="partner_id" domain="[('op_type', '=', '3')]"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="详细信息">
+                            <field name="session_ids">
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--    搜索视图-->
+    <record id="view_academy_lesson_search" model="ir.ui.view">
+        <field name="name">academy.lesson.search</field>
+        <field name="model">academy.lesson</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name"/>
+                <filter string="理科" name="sci" domain="[('subject_id', '=', '理科')]"/>
+                <filter string="文科" name="art" domain="[('subject_id', '=', '文科')]"/>
+                <separator/>
+                <filter string="困难" name="diff" domain="[('level', '=', '1')]"/>
+                <filter string="中等" name="med" domain="[('level', '=', '2')]"/>
+                <filter string="容易" name="easy" domain="[('level', '=', '3')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_academy_lesson" model="ir.actions.act_window">
+        <field name="name">学科</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">academy.lesson</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="view_academy_lesson_tree"/>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+</odoo>

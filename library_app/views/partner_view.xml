@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<odoo>
+<!--    form视图-->
+    <record id="view_form_partner" model="ir.ui.view">
+        <field name="name">Partner Form</field>
+        <field name="model">library.partner</field>
+        <field name="arch" type="xml">
+            <form string="Partner">
+                <sheet>
+                    <group name="group_top">
+                        <group name="group_left">
+                            <field name="name"/>
+                        </group>
+                        <group name="group_right">
+                            <field name="op_type"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<!--    tree视图-->
+    <record id="view_tree_partner" model="ir.ui.view">
+        <field name="name">Partner List</field>
+        <field name="model">library.partner</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="op_type"/>
+            </tree>
+        </field>
+    </record>
+<!--    search视图-->
+    <record id="view_search_partner" model="ir.ui.view">
+        <field name="name">Partner Filters</field>
+        <field name="model">library.partner</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="op_type"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_member" string="Member" domain="[]"
+                            context="{'group_by':'op_type'}"/>
+                    <filter name="filter_author" string="Author" domain="[('op_type', '=', 'author')]"/>
+                    <filter name="filter_publish" string="Publish" domain="[('op_type', '=', 'publish')]"/>
+                    <filter name="filter_partner" string="Partner" domain="[('op_type', '=', 'partner')]"/>
+                </group>
+            </search>
+        </field>
+    </record>
+<!--    action-->
+    <record id="action_library_partner" model="ir.actions.act_window">
+        <field name="name">Library Partner</field>
+        <field name="res_model">library.partner</field>
+        <field name="view_type">form</field>
+        <field name="context">{'search_default_group_by_member': True}</field>
+        <field name="search_view_id" ref="view_search_partner"/>
+        <field name="limit">5</field>
+    </record>
+</odoo>
