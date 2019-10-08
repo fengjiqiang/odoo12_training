@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <menuitem name="上载ERP功能" id="oa_interface_bank.main_menu"
+                  parent="oa.menu_oa_root"
+                  groups="oa_interface_bank.manage_group"
+        />
+
+    </data>
+</odoo>

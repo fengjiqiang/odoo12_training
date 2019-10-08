@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="oa_interface_bank.oa_interface_bank_config_tree_view" model="ir.ui.view">
+        <field name="name">配置付款单模板</field>
+        <field name="model">oa.interface.bank.config</field>
+        <field name="arch" type="xml">
+            <tree default_order="id desc" create="true">
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="state"/>
+                <field name="create_uid" string="创建人"/>
+                <field name="create_date" string="创建日期"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="oa_interface_bank.oa_interface_bank_config_form_view" model="ir.ui.view">
+        <field name="name">配置付款单模板</field>
+        <field name="model">oa.interface.bank.config</field>
+        <field name="arch" type="xml">
+            <form string="付款">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group string="字段对应关系">
+                        <group>
+                            <field name="model_id"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="form_number"/>
+                            <field name="form_name"/>
+                            <field name="company"/>
+                            <field name="pay_name"/>
+                            <field name="pay_number"/>
+                            <field name="customer_code"/>
+                        </group>
+                        <group>
+                            <field name="pay_bank"/>
+                            <field name="contact_name"/>
+                            <field name="contact_tel"/>
+                            <field name="contact_add"/>
+                            <field name="money"/>
+                            <field name="summary"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="oa_interface_bank.oa_interface_bank_config_action">
+        <field name="name">配置付款单模板</field>
+        <field name="res_model">oa.interface.bank.config</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="oa_interface_bank.oa_interface_bank_config_search">
+        <field name="model">oa.interface.bank.config</field>
+        <field name="arch" type="xml">
+            <search string="配置付款单模板">
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="create_uid" string="创建人"/>
+                <field name="create_date" string="创建日期"/>
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="oa_interface_bank.oa_interface_bank_config_menu"
+              name="配置付款单模板"
+              parent="oa.menu_interface_config"
+              groups="oa_interface_bank.controller"
+              sequence="2"
+              action="oa_interface_bank.oa_interface_bank_config_action"/>
+
+
+    <record id="oa_interface_bank.oa_interface_account_move_list_tree_view" model="ir.ui.view">
+        <field name="name">上传凭证模型列表</field>
+        <field name="model">oa.interface.account.move.list</field>
+        <field name="arch" type="xml">
+            <tree default_order="id desc" editable="top">
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="state"/>
+                <field name="create_uid" string="创建人"/>
+                <field name="create_date" string="创建日期"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="oa_interface_bank.oa_interface_account_move_list_action">
+        <field name="name">上传凭证模型列表</field>
+        <field name="res_model">oa.interface.account.move.list</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem id="oa_interface_bank.oa_interface_account_move_list_menu"
+              name="上传凭证模型列表"
+              parent="oa.menu_interface_config"
+              groups="oa_interface_bank.controller"
+              sequence="3"
+              action="oa_interface_bank.oa_interface_account_move_list_action"/>
+
+
+
+    <record id="oa_interface_bank.oa_interface_search_move_state_form_view" model="ir.ui.view">
+        <field name="name">查询已生成凭证状态</field>
+        <field name="model">oa.interface.search.move.state</field>
+        <field name="arch" type="xml">
+            <form string="project">
+                <p class="alert alert-info">
+                    系统将获取《上传凭证模型列表》中获取已生成预制凭证的编号到财务系统中查询最新的凭证状态！
+                </p>
+                <footer>
+                    <button string="开始查询"
+                            name="search_move_state"
+                            type="object"
+                            class="btn-primary"/>
+                    <button string="取消" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="oa_interface_bank.oa_interface_search_move_state_action" model="ir.actions.act_window">
+        <field name="name">查询已生成凭证状态</field>
+        <field name="res_model">oa.interface.search.move.state</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="oa_interface_bank.oa_interface_search_move_state_form_view"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="oa_interface_bank.oa_interface_search_move_state_menu"
+              name="查询已生成凭证状态-ALL"
+              parent="oa_interface_bank.main_menu"
+              groups="oa_interface_bank.controller"
+              sequence="4"
+              action="oa_interface_bank.oa_interface_search_move_state_action"/>
+
+
+</odoo>

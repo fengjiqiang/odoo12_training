@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template>
+        <t t-name="FieldSelection">
+            <span t-if="widget.get('effective_readonly')"/>
+            <select t-if="!widget.get('effective_readonly')"
+                    class="o_form_input"
+                    t-att-name="widget.name"
+                    t-att-tabindex="widget.node.attrs.tabindex"
+                    t-att-autofocus="widget.node.attrs.autofocus"
+                    t-att-id="widget.id_for_label"/>
+        </t>
+    </template>
+
+    <template id="oa_interface_bank.oa_interface_bank_references" name="oa_interface_bank_references2"
+              inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/oa_interface_bank/static/src/js/up_payment.js"
+                    charset="utf-8"/>
+        </xpath>
+    </template>
+
+
+    <record id="oa_interface_bank.oa_interface_bank_tree_view" model="ir.ui.view">
+        <field name="name">付款单</field>
+        <field name="model">oa.interface.bank</field>
+        <field name="arch" type="xml">
+            <tree default_order="id desc" create="true">
+                <field name="source_number"/>
+                <field name="source_model"/>
+                <field name="name"/>
+                <field name="payment_model"/>
+                <field name="pay_bank"/>
+                <field name="currency_type"/>
+                <field name="partner_id"/>
+                <field name="partner_bank_number"/>
+                <field name="pay_money"/>
+                <field name="state"/>
+                <field name="company_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="oa_interface_bank.oa_interface_bank_form_view" model="ir.ui.view">
+        <field name="name">付款单</field>
+        <field name="model">oa.interface.bank</field>
+        <field name="arch" type="xml">
+            <form string="付款">
+                <header>
+                    <button name="up_payment_to_erp" type="object" string="提交付款请求"
+                            states="10" class="oe_highlight"
+                            confirm="请认真确认单据信息,该操作将会将单据内付款信息提交至财务ERP系统中！"/>
+<!--                    增加再次付款按钮(button)-->
+<!--                    @author: fengjiqiang@inspur.com-->
+                    <button name="again_up_payment_to_erp" type="object" string="再次付款请求"
+                            states="05" class="oe_highlight"
+                            confirm="请认真确认单据信息,该操作将会将单据内付款信息提交至财务ERP系统中！"/>
+<!--                    end-->
+                    <button name="search_payment_state" type="object" string="查询付款结果"
+                            states="00,01" class="oe_highlight"/>
+                    <button name="create_update_from" type="object" string="变更付款信息"
+                            states="03" class="oe_highlight"/>
+                    <button name="new_submit_payment_to_erp" type="object" string="重新提交付款"
+                            states="03" class="oe_highlight"/>
+                    <button name="not_payment" type="object" string="无需支付"
+                            states="10" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" modifiers="{'readonly': true}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h3>
+                            <field name="name" attrs="{'readonly': [('state', '!=', '10')]}" string="主题"/>
+                        </h3>
+                    </div>
+                    <group string="基本信息">
+                        <group>
+                            <field name="source_model" attrs="{'readonly': [('state', '!=', '10')]}"
+                                   widget="my_reference"/>
+                            <field name="partner_id" />
+                            <field name="partner_state" attrs="{'invisible': [('state', '!=', 'y')]}"/>
+                            <field name="partner_two" attrs="{'invisible': [('partner_state', '=', 'y')]}"/>
+                            <field name="partner_bank_number" />
+                            <field name="partner_number" />
+                            <field name="pay_money" />
+<!--                            <field name="this_payment"/>-->
+<!--                            <field name="remaining_payable" readonly="1"/>-->
+                            <field name="pay_bank" />
+                        </group>
+                        <group>
+                            <field name="source_number" class="oe_read_only" invisible="0"/>
+                            <field name="partner_contact" attrs="{'readonly': [('state', '!=', '10')]}"/>
+                            <field name="partner_contact_phone" attrs="{'readonly': [('state', '!=', '10')]}"/>
+                            <field name="partner_contact_add" attrs="{'readonly': [('state', '!=', '10')]}"/>
+                            <field name="currency_type" attrs="{'readonly': [('state', '!=', '10')]}"/>
+                            <field name="company_id" attrs="{'readonly': [('state', '!=', '10')]}"/>
+                            <field name="alter_state"
+                                   attrs="{'invisible': [('alter_state', '!=', 'none')], 'readonly': [('state', '!=', '10')]}"/>
+                            <field name="alter_id"
+                                   attrs="{'invisible': [('alter_state', '=', '0')], 'readonly': [('state', '!=', 'no')]}"/>
+                        </group>
+                        <field name="pay_summary" attrs="{'readonly': [('state', '!=', '10')]}"/>
+                    </group>
+                    <group string="付款选项">
+                        <group>
+                            <field name="public_signs" attrs="{'readonly': [('state', '!=', '10'), ('state', '!=', '03')]}"/>
+                            <field name="payment_model" attrs="{'readonly': [('state', '!=', '10'), ('state', '!=', '03')]}"/>
+                            <field name="cross_row_identi" attrs="{'readonly': [('state', '!=', '10'), ('state', '!=', '03')]}"/>
+                        </group>
+                        <group>
+                            <field name="off_site_identi" attrs="{'readonly': [('state', '!=', '10'), ('state', '!=', '03')]}"/>
+                            <field name="payee_identi" attrs="{'readonly': [('state', '!=', '10'), ('state', '!=', '03')]}"/>
+                            <field name="debit_identi" attrs="{'readonly': [('state', '!=', '10'), ('state', '!=', '03')]}"/>
+                        </group>
+                    </group>
+<!--                    增加：付款提交明细-->
+<!--                    @author: fengjiqiang@inspur.com- -->
+                    <notebook>
+                        <page string="付款提交记录">
+                            <group col="6" colspan="2">
+                                <field name="pay_per_money_sum"/>
+                                <field name="paied_money" readonly="1"/>
+                                <field name="pay_remain_money"/>
+                            </group>
+                            <field name="payment_line_ids">
+                                <tree string="" delete="0">
+                                    <field name="pay_per_money_char"/>
+                                    <field name="state"/>
+                                </tree>
+                                <form string="">
+                                    <group>
+                                        <field name="pay_per_money_char" invisible="1"/>
+                                        <field name="pay_per_money" attrs="{'readonly': [('state', '!=', 'unsubmitted')]}"/>
+                                        <field name="state" readonly="1"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+<!--                    end-->
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="oa_interface_bank.oa_interface_bank_action">
+        <field name="name">付款单</field>
+        <field name="res_model">oa.interface.bank</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_group_by_state': True}</field>
+    </record>
+
+    <record model="ir.ui.view" id="oa_interface_bank.oa_interface_bank_search">
+        <field name="model">oa.interface.bank</field>
+        <field name="arch" type="xml">
+            <search string="付款单">
+                <field name="source_number"/>
+                <field name="source_model"/>
+                <field name="payment_model"/>
+                <field name="pay_bank"/>
+                <field name="currency_type"/>
+                <field name="partner_id"/>
+                <field name="partner_bank_number"/>
+                <field name="pay_money"/>
+                <field name="state"/>
+                <field name="company_id"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_state" string="支付结果" domain="[]"
+                            context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="oa_interface_bank.oa_interface_bank_menu"
+              name="付款单"
+              parent="oa_interface_bank.main_menu"
+              sequence="1"
+              groups="oa_interface_bank.manage_group"
+              action="oa_interface_bank.oa_interface_bank_action"/>
+
+
+    <record id="oa_interface_bank.oa_interface_payments_form_view" model="ir.ui.view">
+        <field name="name">付款单批量操作功能</field>
+        <field name="model">oa.interface.payments</field>
+        <field name="arch" type="xml">
+            <form string="project">
+                <p class="alert alert-info">
+                    本操作将会从付款配置模型中读取已配置的付款模型，根据每个付款模型获取已审批完成并已生成凭证的单据来创建上传待付款单据！
+                </p>
+                <footer>
+                    <button string="批量生成"
+                            name="create_payments"
+                            type="object"
+                            class="btn-primary"/>
+                    <button string="取消" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="oa_interface_bank.oa_interface_payments_action" model="ir.actions.act_window">
+        <field name="name">批量生成付款单</field>
+        <field name="res_model">oa.interface.payments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="oa_interface_bank.oa_interface_payments_form_view"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="oa_interface_bank.oa_interface_payments_menu"
+              name="批量生成付款单"
+              parent="oa_interface_bank.main_menu"
+              groups="oa_interface_bank.controller"
+              sequence="3"
+              action="oa_interface_bank.oa_interface_payments_action"/>
+
+
+    <record id="oa_interface_bank.up_oa_interface_payments_form_view" model="ir.ui.view">
+        <field name="name">付款单批量上传功能</field>
+        <field name="model">oa.interface.payments</field>
+        <field name="arch" type="xml">
+            <form string="project">
+                <p class="alert alert-info">
+                    系统即将把勾选的待付款单上传至erp中！请确认!
+                </p>
+                <footer>
+                    <button string="批量上传"
+                            name="up_payment_to_erp"
+                            type="object"
+                            class="btn-primary"/>
+                    <button string="取消" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <act_window id="oa_interface_bank.up_oa_interface_payments_action"
+                name="批量上传"
+                src_model="oa.interface.bank"
+                res_model="oa.interface.payments"
+                view_type="form"
+                view_mode="form"
+                view_id="oa_interface_bank.up_oa_interface_payments_form_view"
+                key2="client_action_multi"
+                target="new"
+    />
+
+
+    <!--付款变更-->
+    <record id="oa_interface_bank.oa_interface_payment_alter_tree_view" model="ir.ui.view">
+        <field name="name">付款变更单</field>
+        <field name="model">oa.interface.payment.alter</field>
+        <field name="arch" type="xml">
+            <tree default_order="id desc">
+                <!--<field name="source_model"/>-->
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="employee_id"/>
+                <field name="partner_id"/>
+                <field name="partner_bank_number"/>
+                <field name="pay_money"/>
+                <field name="state"/>
+                <field name="company_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="oa_interface_bank.oa_interface_payment_alter_form_view" model="ir.ui.view">
+        <field name="name">付款变更单</field>
+        <field name="model">oa.interface.payment.alter</field>
+        <field name="arch" type="xml">
+            <form string="付款变更单">
+                <header>
+                    <field name="state" widget="statusbar" modifiers="{'readonly': true}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h3>
+                            <field name="name" attrs="{'readonly': [('state', '!=', '1')]}" string="主题"/>
+                        </h3>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id" attrs="{'readonly': [('state', '!=', '1')]}"/>
+                            <field name="source_number" attrs="{'readonly': [('state', '!=', '1')]}"/>
+                            <field name="source_model" attrs="{'readonly': [('state', '!=', '1')]}"/>
+                        </group>
+                        <group>
+                            <field name="user_id" attrs="{'readonly': [('state', '!=', '1')]}"/>
+                            <field name="employee_id" attrs="{'readonly': [('state', '!=', '1')]}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="变更前信息">
+                            <field name="partner_id" attrs="{'readonly': [('state', '!=', '1')]}"/>
+                            <field name="partner_bank_number" attrs="{'readonly': [('state', '!=', '1')]}"/>
+                            <field name="pay_bank" attrs="{'readonly': [('state', '!=', '1')]}"/>
+                            <field name="pay_money" attrs="{'readonly': [('state', '!=', '1')]}"/>
+                        </group>
+                        <group string="变更信息">
+                            <field name="new_partner_id" attrs="{'readonly': [('state', '!=', '00')]}"/>
+                            <field name="new_partner_bank_number" attrs="{'readonly': [('state', '!=', '00')]}"/>
+                            <field name="new_pay_bank" attrs="{'readonly': [('state', '!=', '00')]}"/>
+                            <field name="new_partner_number" attrs="{'readonly': [('state', '!=', '00')]}"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="oa_interface_bank.oa_interface_payment_alter_action">
+        <field name="name">付款变更单</field>
+        <field name="res_model">oa.interface.payment.alter</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="oa_interface_bank.oa_interface_payment_alter_search">
+        <field name="model">oa.interface.payment.alter</field>
+        <field name="arch" type="xml">
+            <search string="付款变更单">
+                <!--<field name="source_model"/>-->
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="employee_id"/>
+                <field name="partner_id"/>
+                <field name="partner_bank_number"/>
+                <field name="pay_money"/>
+                <field name="state"/>
+                <field name="company_id"/>
+            </search>
+        </field>
+    </record>
+
+
+     <menuitem name="付款" id="oa_interface_bank.payment_main_menu"
+                  parent="oa.menu_financial_root"/>
+
+    <menuitem id="oa_interface_bank.oa_interface_payment_alter_menu"
+              name="付款变更单"
+              parent="oa_interface_bank.payment_main_menu"
+              sequence="1"
+              action="oa_interface_bank.oa_interface_payment_alter_action"/>
+
+</odoo>

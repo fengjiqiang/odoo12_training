@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+account_oa_interface_bank,oa.interface.bank,model_oa_interface_bank,base.group_user,1,1,1,1
+account_oa_interface_bank_config,oa.interface.bank.config,model_oa_interface_bank_config,base.group_user,1,1,1,1
+account_oa_interface_account_move_list,oa.interface.account.move.list,model_oa_interface_account_move_list,base.group_user,1,1,1,1
+account_oa_interface_payment_alter,oa.interface.payment.alter,model_oa_interface_payment_alter,base.group_user,1,1,0,0
+account_oa_interface_payment_alter_manage,oa.interface.payment.alter.manage,model_oa_interface_payment_alter,oa_interface_bank.manage_group,1,1,1,0
+
+
+
+

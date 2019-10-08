@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		 <!--组织多公司过滤-->
+		<record id="account_preset_rule" model="ir.rule">
+			<field name="name">oa.interface.bank</field>
+			<field name="model_id" ref="model_oa_interface_bank" />
+			<field name="global" eval="True" />
+			<field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'child_of', [user.company_id.id])]</field>
+		</record>
+
+		<record id="oa_interface_payment_alter_company_rule" model="ir.rule">
+			<field name="name">付款变更单公司过滤</field>
+			<field name="model_id" ref="model_oa_interface_payment_alter"/>
+			<field name="global" eval="True" />
+			<field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'child_of', [user.company_id.id])]</field>
+		</record>
+
+		<!--付款变更过滤-->
+		<record id="oa_interface_payment_alter_rule" model="ir.rule">
+            <field name="name">付款变更单</field>
+            <field name="model_id" ref="model_oa_interface_payment_alter"/>
+            <field name="domain_force">['|',('user_id.id', 'in',[user.id]), ('create_uid', 'in',[user.id])]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="oa_interface_payment_alter_manage_rule" model="ir.rule">
+            <field name="name">上传erp操作用户过滤付款变更单</field>
+            <field name="model_id" ref="model_oa_interface_payment_alter"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+	</data>
+</odoo>

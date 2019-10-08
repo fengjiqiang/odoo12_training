@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<data>
+		<record model="ir.module.category" id="oa_interface_bank.interface_main">
+			<field name="name">上载ERP操作</field>
+			<field name="visible" eval="0" />
+		</record>
+
+		<record id="oa_interface_bank.manage_group" model="res.groups">
+			<field name="name">用户</field>
+			<field name="category_id" ref="oa_interface_bank.interface_main" />
+		</record>
+
+		<record id="oa_interface_bank.controller" model="res.groups">
+			<field name="name">管理员</field>
+			<field name="category_id" ref="oa_interface_bank.interface_main"/>
+			<field name="implied_ids" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+		</record>
+
+        <!--记录规则  针对上传付款单-->
+		<record id="up_payment_oa_financial_daily_employee_rule" model="ir.rule">
+            <field name="name">日常报销</field>
+            <field name="model_id" ref="oa_financial.model_oa_financial_daily"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="up_payment_oa_financial_other_daily_employee_rule" model="ir.rule">
+            <field name="name">其他日常报销</field>
+            <field name="model_id" ref="oa_financial.model_oa_financial_other_daily"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="up_payment_oa_financial_fixed_assets_rule" model="ir.rule">
+            <field name="name">固定资产采购报销</field>
+            <field name="model_id" ref="oa_financial.model_oa_financial_fixed_assets"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="up_payment_oa_financial_meet_training_rule" model="ir.rule">
+            <field name="name">会议及培训报销审批</field>
+            <field name="model_id" ref="oa_financial.model_oa_financial_meet_training"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="up_payment_oa_financial_travel_rule" model="ir.rule">
+            <field name="name">差旅费用报销审批</field>
+            <field name="model_id" ref="oa_financial.model_oa_financial_travel"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="up_payment_oa_financial_entertain_rule" model="ir.rule">
+            <field name="name">招待费用报销审批</field>
+            <field name="model_id" ref="oa_financial.model_oa_financial_entertain"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="up_payment_oa_financial_transport_rule" model="ir.rule">
+            <field name="name">外部运输仓储劳务租赁</field>
+            <field name="model_id" ref="oa_financial.model_oa_financial_transport"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="up_payment_oa_financial_info_sys_rule" model="ir.rule">
+            <field name="name">信息系统购买和租赁</field>
+            <field name="model_id" ref="oa_financial.model_oa_financial_info_sys"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="up_payment_oa_financial_car_maintain_rule" model="ir.rule">
+            <field name="name">车辆维修保养费用报销</field>
+            <field name="model_id" ref="oa_financial.model_oa_financial_car_maintain"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="up_payment_oa_financial_car_out_rule" model="ir.rule">
+            <field name="name">出车费用费用报销</field>
+            <field name="model_id" ref="oa_financial.model_oa_financial_car_out"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="up_payment_oa_financial_taxation_rule" model="ir.rule">
+            <field name="name">缴纳税款审批</field>
+            <field name="model_id" ref="oa_financial.model_oa_financial_taxation"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="up_payment_oa_financial_borrowing_rule" model="ir.rule">
+            <field name="name">员工借款审批</field>
+            <field name="model_id" ref="oa_financial.model_oa_financial_borrowing"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="up_payment_oa_financial_refund_bank_rule" model="ir.rule">
+            <field name="name">归还银行借款审批</field>
+            <field name="model_id" ref="oa_financial.model_oa_financial_refund_bank"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="up_payment_oa_financial_fund_account_rule" model="ir.rule">
+            <field name="name">资金账户管理</field>
+            <field name="model_id" ref="oa_financial.model_oa_financial_fund_account"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="up_payment_oa_financial_intermediary_rule" model="ir.rule">
+            <field name="name">中介机构款项审批</field>
+            <field name="model_id" ref="oa_financial.model_oa_financial_intermediary"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="up_payment_oa_financial_approval_rule" model="ir.rule">
+            <field name="name">转款款项申请审批</field>
+            <field name="model_id" ref="oa_financial.model_oa_financial_approval"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="up_payment_oa_financial_payment_approval_rule" model="ir.rule">
+            <field name="name">预付款审批</field>
+            <field name="model_id" ref="oa_financial.model_oa_financial_payment_approval"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('oa_interface_bank.manage_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+
+	</data>
+</odoo>
